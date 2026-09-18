@@ -1,0 +1,30 @@
+{
+  "name": "confluence-streamdeck",
+  "version": "0.1.0",
+  "description": "Plugin de Stream Deck para Confluence Suite: multistream, stream info, chat y estado, para Twitch/YouTube/Kick.",
+  "private": true,
+  "scripts": {
+    "icons": "node scripts/gen-icons.mjs",
+    "build": "rollup -c",
+    "watch": "rollup -c -w --watchOnly",
+    "link": "streamdeck link tv.noxtaipan.confluence.sdPlugin",
+    "restart": "streamdeck restart tv.noxtaipan.confluence",
+    "validate": "streamdeck validate tv.noxtaipan.confluence.sdPlugin",
+    "pack": "streamdeck pack tv.noxtaipan.confluence.sdPlugin -f"
+  },
+  "dependencies": {
+    "@elgato/streamdeck": "^2.1.2",
+    "obs-websocket-js": "^5.0.8"
+  },
+  "devDependencies": {
+    "@elgato/cli": "^1.9.0",
+    "@rollup/plugin-commonjs": "^28.0.1",
+    "@rollup/plugin-node-resolve": "^15.3.0",
+    "@rollup/plugin-typescript": "^12.1.1",
+    "@types/node": "^26.4.1",
+    "rollup": "^4.24.0",
+    "sharp": "^0.35.4",
+    "tslib": "^2.7.0",
+    "typescript": "^5.6.3"
+  }
+}

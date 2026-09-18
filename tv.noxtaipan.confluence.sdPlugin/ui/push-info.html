@@ -1,0 +1,126 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<script src="https://sdpi-components.dev/releases/v4/sdpi-components.js"></script>
+		<style>
+			.search-results {
+				display: flex;
+				flex-direction: column;
+				gap: 2px;
+				max-height: 120px;
+				overflow-y: auto;
+			}
+			.search-results button {
+				text-align: left;
+				background: var(--sdpi-color-bg, #2d2d2d);
+				color: inherit;
+				border: 1px solid transparent;
+				border-radius: 4px;
+				padding: 4px 6px;
+				cursor: pointer;
+				font-size: 12px;
+			}
+			.search-results button:hover {
+				border-color: var(--sdpi-color-accent, #ff6d1e);
+			}
+			.selected-tag {
+				font-size: 11px;
+				opacity: 0.75;
+				padding: 0 4px;
+			}
+		</style>
+	</head>
+	<body>
+		<sdpi-item label="Titulo">
+			<sdpi-textfield setting="title"></sdpi-textfield>
+		</sdpi-item>
+		<sdpi-item label="Tags">
+			<sdpi-textfield setting="tags" placeholder="tag1, tag2, tag3"></sdpi-textfield>
+		</sdpi-item>
+
+		<sdpi-item label="Plataformas">
+			<sdpi-checkbox setting="twitch" default="true" label="Twitch"></sdpi-checkbox>
+			<sdpi-checkbox setting="youtube" default="true" label="YouTube"></sdpi-checkbox>
+			<sdpi-checkbox setting="kick" default="true" label="Kick"></sdpi-checkbox>
+		</sdpi-item>
+
+		<sdpi-item label="Juego (Twitch)">
+			<input type="text" id="twitchSearch" placeholder="Buscar juego..." />
+		</sdpi-item>
+		<sdpi-item>
+			<div class="search-results" id="twitchResults"></div>
+		</sdpi-item>
+		<sdpi-item label="Twitch Game ID">
+			<sdpi-textfield setting="twitchGameId" id="twitchGameId"></sdpi-textfield>
+		</sdpi-item>
+
+		<sdpi-item label="Categoria (Kick)">
+			<input type="text" id="kickSearch" placeholder="Buscar categoria..." />
+		</sdpi-item>
+		<sdpi-item>
+			<div class="search-results" id="kickResults"></div>
+		</sdpi-item>
+		<sdpi-item label="Kick Category ID">
+			<sdpi-textfield setting="kickCategoryId" id="kickCategoryId"></sdpi-textfield>
+		</sdpi-item>
+
+		<sdpi-item label="YouTube Category ID">
+			<sdpi-textfield setting="youtubeCategoryId" placeholder="ej. 20 = Gaming"></sdpi-textfield>
+		</sdpi-item>
+
+		<sdpi-item label="Confluence URL">
+			<sdpi-textfield setting="confluenceUrl" global placeholder="http://127.0.0.1:7773"></sdpi-textfield>
+		</sdpi-item>
+
+		<script>
+			function debounce(fn, ms) {
+				let t;
+				return (...args) => {
+					clearTimeout(t);
+					t = setTimeout(() => fn(...args), ms);
+				};
+			}
+
+			async function getConfluenceUrl() {
+				const global = (await SDPIComponents.streamDeckClient.getGlobalSettings()) || {};
+				return (global.confluenceUrl || "http://127.0.0.1:7773").replace(/\/+$/, "");
+			}
+
+			function wireSearch(inputId, resultsId, apiPath, nameKey, idKey, hiddenFieldId) {
+				const input = document.getElementById(inputId);
+				const results = document.getElementById(resultsId);
+				const hiddenField = document.getElementById(hiddenFieldId);
+
+				const run = debounce(async () => {
+					const q = input.value.trim();
+					results.innerHTML = "";
+					if (!q) return;
+					try {
+						const base = await getConfluenceUrl();
+						const res = await fetch(`${base}${apiPath}?q=${encodeURIComponent(q)}`);
+						const items = await res.json();
+						(Array.isArray(items) ? items : []).slice(0, 8).forEach((item) => {
+							const btn = document.createElement("button");
+							btn.textContent = item[nameKey];
+							btn.addEventListener("click", () => {
+								hiddenField.value = String(item[idKey]);
+								hiddenField.dispatchEvent(new Event("change", { bubbles: true }));
+								input.value = item[nameKey];
+								results.innerHTML = "";
+							});
+							results.appendChild(btn);
+						});
+					} catch (err) {
+						console.error("search failed", err);
+					}
+				}, 300);
+
+				input.addEventListener("input", run);
+			}
+
+			wireSearch("twitchSearch", "twitchResults", "/api/search/twitch-games", "name", "id", "twitchGameId");
+			wireSearch("kickSearch", "kickResults", "/api/search/kick-categories", "name", "id", "kickCategoryId");
+		</script>
+	</body>
+</html>

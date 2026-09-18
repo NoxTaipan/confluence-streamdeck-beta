@@ -1,0 +1,106 @@
+{
+  "$schema": "https://schemas.elgato.com/streamdeck/plugins/manifest.json",
+  "Name": "Confluence Suite",
+  "Version": "0.1.0.0",
+  "Author": "NOX TAIPAN",
+  "Description": "Controla Confluence (multistream, stream info y chat para Twitch, YouTube y Kick) desde tu Stream Deck.",
+  "Icon": "imgs/plugin/icon",
+  "UUID": "tv.noxtaipan.confluence",
+  "Category": "Confluence Suite",
+  "CategoryIcon": "imgs/plugin/category-icon",
+  "CodePath": "bin/plugin.js",
+  "SDKVersion": 2,
+  "OS": [
+    {
+      "Platform": "windows",
+      "MinimumVersion": "10"
+    }
+  ],
+  "Software": {
+    "MinimumVersion": "6.5"
+  },
+  "Nodejs": {
+    "Version": "20"
+  },
+  "Actions": [
+    {
+      "Name": "Target de Multistream",
+      "UUID": "tv.noxtaipan.confluence.multistream-target",
+      "Tooltip": "Arranca, para o alterna un target de Confluence Multistream (Twitch/YouTube/Kick) via obs-websocket.",
+      "Icon": "imgs/actions/multistream-target/icon",
+      "PropertyInspectorPath": "ui/multistream-target.html",
+      "Controllers": ["Keypad"],
+      "DisableAutomaticStates": true,
+      "States": [
+        { "Image": "imgs/actions/multistream-target/key-off", "TitleAlignment": "bottom" },
+        { "Image": "imgs/actions/multistream-target/key-on", "TitleAlignment": "bottom" }
+      ]
+    },
+    {
+      "Name": "Stream Principal (Twitch)",
+      "UUID": "tv.noxtaipan.confluence.main-stream",
+      "Tooltip": "Arranca o para el stream principal de OBS (el output que va a Twitch).",
+      "Icon": "imgs/actions/main-stream/icon",
+      "Controllers": ["Keypad"],
+      "DisableAutomaticStates": true,
+      "States": [
+        { "Image": "imgs/actions/main-stream/key-off", "Title": "Twitch", "TitleAlignment": "bottom" },
+        { "Image": "imgs/actions/main-stream/key-on", "Title": "Twitch", "TitleAlignment": "bottom" }
+      ]
+    },
+    {
+      "Name": "Start All",
+      "UUID": "tv.noxtaipan.confluence.start-all",
+      "Tooltip": "Arranca el stream principal y todos los targets de Confluence Multistream.",
+      "Icon": "imgs/actions/start-all/icon",
+      "Controllers": ["Keypad"],
+      "States": [{ "Image": "imgs/actions/start-all/key", "Title": "Start All", "TitleAlignment": "bottom" }]
+    },
+    {
+      "Name": "Stop All",
+      "UUID": "tv.noxtaipan.confluence.stop-all",
+      "Tooltip": "Para todos los targets de Confluence Multistream y el stream principal.",
+      "Icon": "imgs/actions/stop-all/icon",
+      "Controllers": ["Keypad"],
+      "States": [{ "Image": "imgs/actions/stop-all/key", "Title": "Stop All", "TitleAlignment": "bottom" }]
+    },
+    {
+      "Name": "Reiniciar Confluence",
+      "UUID": "tv.noxtaipan.confluence.restart-confluence",
+      "Tooltip": "Reinicia el servidor de Confluence (stream info + chat).",
+      "Icon": "imgs/actions/restart-confluence/icon",
+      "Controllers": ["Keypad"],
+      "States": [{ "Image": "imgs/actions/restart-confluence/key", "Title": "Reiniciar", "TitleAlignment": "bottom" }]
+    },
+    {
+      "Name": "Push Stream Info",
+      "UUID": "tv.noxtaipan.confluence.push-info",
+      "Tooltip": "Empuja titulo/categoria/tags a Twitch, YouTube y Kick de una via Confluence.",
+      "Icon": "imgs/actions/push-info/icon",
+      "PropertyInspectorPath": "ui/push-info.html",
+      "Controllers": ["Keypad"],
+      "States": [{ "Image": "imgs/actions/push-info/key", "Title": "Push Info", "TitleAlignment": "bottom" }]
+    },
+    {
+      "Name": "Enviar Mensaje al Chat",
+      "UUID": "tv.noxtaipan.confluence.chat-send",
+      "Tooltip": "Manda un mensaje predefinido a Confluence Chat, a las plataformas que elijas.",
+      "Icon": "imgs/actions/chat-send/icon",
+      "PropertyInspectorPath": "ui/chat-send.html",
+      "Controllers": ["Keypad"],
+      "States": [{ "Image": "imgs/actions/chat-send/key", "Title": "Chat", "TitleAlignment": "bottom" }]
+    },
+    {
+      "Name": "Estado de Confluence",
+      "UUID": "tv.noxtaipan.confluence.status-dial",
+      "Tooltip": "Muestra el estado del chat y del stream principal en la pantalla del dial (Stream Deck+).",
+      "Icon": "imgs/actions/status-dial/icon",
+      "Controllers": ["Encoder"],
+      "Encoder": {
+        "Icon": "imgs/actions/status-dial/dial",
+        "layout": "$A1"
+      },
+      "States": [{ "Image": "imgs/actions/status-dial/dial", "Title": "Confluence" }]
+    }
+  ]
+}
