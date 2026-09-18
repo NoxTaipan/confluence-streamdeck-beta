@@ -1,3 +1,5 @@
+[🇬🇧 English](README.en.md) | 🇪🇸 **Español**
+
 # Confluence Stream Deck (Beta)
 
 Plugin de [Elgato Stream Deck](https://www.elgato.com/stream-deck) para controlar **Confluence Suite** sin tocar el teclado ni el mouse — arrancar/parar streams, publicar titulo/tags/categoria, y mandar mensajes al chat, todo desde botones fisicos.
