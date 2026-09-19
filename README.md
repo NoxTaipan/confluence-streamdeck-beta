@@ -65,7 +65,7 @@ npm run link
 npm run restart
 ```
 
-`link` registra el plugin en tu Stream Deck app (una sola vez); `restart` lo recarga cada vez que recompiles con `npm run build`. Las 8 acciones van a aparecer en la categoria **"Confluence Suite"** del panel de acciones de Stream Deck, listas para arrastrar a un boton.
+`link` registra el plugin en tu Stream Deck app (una sola vez); `restart` lo recarga cada vez que recompiles con `npm run build`. Las 9 acciones van a aparecer en la categoria **"Confluence Suite"** del panel de acciones de Stream Deck, listas para arrastrar a un boton.
 
 ### 4. Conectar con OBS y Confluence
 
