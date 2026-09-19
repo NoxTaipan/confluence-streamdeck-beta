@@ -19,6 +19,7 @@ Build publica de [NOX TAIPAN](https://github.com/NoxTaipan). Se conecta a tu pro
 | **Reiniciar Confluence** | Reinicia el servidor de Confluence (stream info + chat) sin abrir OBS | tu checkout local de confluence(-beta), ver Instalacion |
 | **Push Stream Info** | Publica titulo/categoria/tags a Twitch, YouTube y Kick de una | confluence-beta corriendo |
 | **Enviar Mensaje al Chat** | Manda un mensaje predefinido al chat unificado, a las plataformas que elijas | confluence-beta corriendo |
+| **Crear Clip (Twitch)** | Crea un clip del stream de Twitch en vivo y abre el editor en el navegador | confluence-beta corriendo, canal de Twitch en vivo |
 | **Estado de Confluence** | Muestra en la pantalla del dial (Stream Deck+) el estado del chat y del stream principal | confluence-beta + obs-websocket |
 
 <p>
@@ -27,6 +28,7 @@ Build publica de [NOX TAIPAN](https://github.com/NoxTaipan). Se conecta a tu pro
   <img src="tv.noxtaipan.confluence.sdPlugin/imgs/actions/restart-confluence/key.png" width="64" />
   <img src="tv.noxtaipan.confluence.sdPlugin/imgs/actions/push-info/key.png" width="64" />
   <img src="tv.noxtaipan.confluence.sdPlugin/imgs/actions/chat-send/key.png" width="64" />
+  <img src="tv.noxtaipan.confluence.sdPlugin/imgs/actions/create-clip/key.png" width="64" />
 </p>
 
 No necesitas usar todas — cada accion funciona sola si le das lo que pide en la columna "Necesita".
@@ -63,7 +65,7 @@ npm run link
 npm run restart
 ```
 
-`link` registra el plugin en tu Stream Deck app (una sola vez); `restart` lo recarga cada vez que recompiles con `npm run build`. Las 7 acciones van a aparecer en la categoria **"Confluence Suite"** del panel de acciones de Stream Deck, listas para arrastrar a un boton.
+`link` registra el plugin en tu Stream Deck app (una sola vez); `restart` lo recarga cada vez que recompiles con `npm run build`. Las 8 acciones van a aparecer en la categoria **"Confluence Suite"** del panel de acciones de Stream Deck, listas para arrastrar a un boton.
 
 ### 4. Conectar con OBS y Confluence
 

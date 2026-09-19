@@ -91,6 +91,14 @@
       "States": [{ "Image": "imgs/actions/chat-send/key", "Title": "Chat", "TitleAlignment": "bottom" }]
     },
     {
+      "Name": "Crear Clip (Twitch)",
+      "UUID": "tv.noxtaipan.confluence.create-clip",
+      "Tooltip": "Crea un clip del stream de Twitch en vivo via Confluence y abre el editor.",
+      "Icon": "imgs/actions/create-clip/icon",
+      "Controllers": ["Keypad"],
+      "States": [{ "Image": "imgs/actions/create-clip/key", "Title": "Clip", "TitleAlignment": "bottom" }]
+    },
+    {
       "Name": "Estado de Confluence",
       "UUID": "tv.noxtaipan.confluence.status-dial",
       "Tooltip": "Muestra el estado del chat y del stream principal en la pantalla del dial (Stream Deck+).",

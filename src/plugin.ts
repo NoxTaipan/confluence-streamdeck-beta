@@ -7,6 +7,7 @@ import { RestartConfluence } from "./actions/restart-confluence";
 import { PushInfo } from "./actions/push-info";
 import { ChatSend } from "./actions/chat-send";
 import { StatusDial } from "./actions/status-dial";
+import { CreateClip } from "./actions/create-clip";
 
 streamDeck.logger.setLevel("info");
 
@@ -18,5 +19,6 @@ streamDeck.actions.registerAction(new RestartConfluence());
 streamDeck.actions.registerAction(new PushInfo());
 streamDeck.actions.registerAction(new ChatSend());
 streamDeck.actions.registerAction(new StatusDial());
+streamDeck.actions.registerAction(new CreateClip());
 
 streamDeck.connect();

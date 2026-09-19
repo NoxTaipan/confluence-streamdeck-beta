@@ -47,3 +47,9 @@ export async function sendChatMessage(message: string, platforms: string[]): Pro
 		body: JSON.stringify({ message, platforms })
 	});
 }
+
+export type CreateClipResult = { ok: boolean; result?: { id: string; editUrl: string }; error?: string };
+
+export async function createTwitchClip(): Promise<CreateClipResult> {
+	return request<CreateClipResult>("/api/clip/twitch", { method: "POST" });
+}

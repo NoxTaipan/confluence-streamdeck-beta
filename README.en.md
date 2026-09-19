@@ -19,6 +19,7 @@ Public build by [NOX TAIPAN](https://github.com/NoxTaipan). It connects to your 
 | **Restart Confluence** | Restarts the Confluence server (stream info + chat) without opening OBS | your local confluence(-beta) checkout, see Installation |
 | **Push Stream Info** | Publishes title/category/tags to Twitch, YouTube and Kick at once | confluence-beta running |
 | **Send Chat Message** | Sends a predefined message to the unified chat, to the platforms you choose | confluence-beta running |
+| **Create Clip (Twitch)** | Creates a clip of the live Twitch stream and opens the editor in your browser | confluence-beta running, Twitch channel live |
 | **Confluence Status** | Shows chat and main-stream status on the dial screen (Stream Deck+) | confluence-beta + obs-websocket |
 
 <p>
@@ -27,6 +28,7 @@ Public build by [NOX TAIPAN](https://github.com/NoxTaipan). It connects to your 
   <img src="tv.noxtaipan.confluence.sdPlugin/imgs/actions/restart-confluence/key.png" width="64" />
   <img src="tv.noxtaipan.confluence.sdPlugin/imgs/actions/push-info/key.png" width="64" />
   <img src="tv.noxtaipan.confluence.sdPlugin/imgs/actions/chat-send/key.png" width="64" />
+  <img src="tv.noxtaipan.confluence.sdPlugin/imgs/actions/create-clip/key.png" width="64" />
 </p>
 
 You don't need to use all of them — each action works on its own as long as you give it what's listed in the "Needs" column.
@@ -63,7 +65,7 @@ npm run link
 npm run restart
 ```
 
-`link` registers the plugin in your Stream Deck app (a one-time step); `restart` reloads it every time you rebuild with `npm run build`. The 7 actions will show up under the **"Confluence Suite"** category in Stream Deck's action panel, ready to drag onto a button.
+`link` registers the plugin in your Stream Deck app (a one-time step); `restart` reloads it every time you rebuild with `npm run build`. The 8 actions will show up under the **"Confluence Suite"** category in Stream Deck's action panel, ready to drag onto a button.
 
 ### 4. Connect to OBS and Confluence
 

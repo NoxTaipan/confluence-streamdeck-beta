@@ -1,7 +1,7 @@
 // Genera los PNG que pide el manifest de Stream Deck a partir de SVGs
 // inline, usando la paleta de marca de Confluence (confluence/public/style.css).
 import sharp from "sharp";
-import { mkdir } from "node:fs/promises";
+import { access, mkdir } from "node:fs/promises";
 import { dirname } from "node:path";
 
 const BG = "#0c0e13";
@@ -13,6 +13,22 @@ const MUTED = "#3a4058";
 async function render(svg, size, outPath) {
   await mkdir(dirname(outPath), { recursive: true });
   await sharp(Buffer.from(svg)).resize(size, size).png().toFile(outPath);
+}
+
+// Para los glifos de respaldo (ver mas abajo): si el archivo ya existe, no
+// lo toca. Antes este script pisaba SIEMPRE, asi que corerlo despues de
+// que process-brand-icons.mjs ya habia puesto arte real encima del glifo
+// de respaldo volvia a dejar el glifo simple - paso con push-info,
+// restart-confluence, start-all y stop-all. Con esto, la unica forma de
+// regenerar un glifo de respaldo a proposito es borrar el archivo primero.
+async function renderIfMissing(svg, size, outPath) {
+  try {
+    await access(outPath);
+    return;
+  } catch {
+    // no existe todavia - generar el glifo de respaldo
+  }
+  await render(svg, size, outPath);
 }
 
 // Icono principal del plugin (imgs/plugin/icon.png) y de categoria
@@ -124,10 +140,10 @@ const playIcon = (size, color) => `
   <rect width="100" height="100" fill="${BG}"/>
   <path d="M38 26v48l40-24Z" fill="${color}"/>
 </svg>`;
-await render(playGlyph(20), 20, `${root}/imgs/actions/start-all/icon.png`);
-await render(playGlyph(40), 40, `${root}/imgs/actions/start-all/icon@2x.png`);
-await render(playIcon(72, ACCENT), 72, `${root}/imgs/actions/start-all/key.png`);
-await render(playIcon(144, ACCENT), 144, `${root}/imgs/actions/start-all/key@2x.png`);
+await renderIfMissing(playGlyph(20), 20, `${root}/imgs/actions/start-all/icon.png`);
+await renderIfMissing(playGlyph(40), 40, `${root}/imgs/actions/start-all/icon@2x.png`);
+await renderIfMissing(playIcon(72, ACCENT), 72, `${root}/imgs/actions/start-all/key.png`);
+await renderIfMissing(playIcon(144, ACCENT), 144, `${root}/imgs/actions/start-all/key@2x.png`);
 
 const stopGlyph = (size, color = "#ffffff") => `
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" width="${size}" height="${size}">
@@ -139,10 +155,10 @@ const stopIcon = (size, color) => `
   <rect x="30" y="30" width="40" height="40" rx="6" fill="${color}"/>
 </svg>`;
 const STOP_RED = "#ff5c5c";
-await render(stopGlyph(20), 20, `${root}/imgs/actions/stop-all/icon.png`);
-await render(stopGlyph(40), 40, `${root}/imgs/actions/stop-all/icon@2x.png`);
-await render(stopIcon(72, STOP_RED), 72, `${root}/imgs/actions/stop-all/key.png`);
-await render(stopIcon(144, STOP_RED), 144, `${root}/imgs/actions/stop-all/key@2x.png`);
+await renderIfMissing(stopGlyph(20), 20, `${root}/imgs/actions/stop-all/icon.png`);
+await renderIfMissing(stopGlyph(40), 40, `${root}/imgs/actions/stop-all/icon@2x.png`);
+await renderIfMissing(stopIcon(72, STOP_RED), 72, `${root}/imgs/actions/stop-all/key.png`);
+await renderIfMissing(stopIcon(144, STOP_RED), 144, `${root}/imgs/actions/stop-all/key@2x.png`);
 
 const refreshGlyph = (size, color = "#ffffff") => `
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" width="${size}" height="${size}">
@@ -157,10 +173,10 @@ const refreshIcon = (size, color) => `
     <path d="M14 2.8v3.6h-3.6" stroke="${color}" stroke-width="1.7" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
   </g>
 </svg>`;
-await render(refreshGlyph(20), 20, `${root}/imgs/actions/restart-confluence/icon.png`);
-await render(refreshGlyph(40), 40, `${root}/imgs/actions/restart-confluence/icon@2x.png`);
-await render(refreshIcon(72, ACCENT), 72, `${root}/imgs/actions/restart-confluence/key.png`);
-await render(refreshIcon(144, ACCENT), 144, `${root}/imgs/actions/restart-confluence/key@2x.png`);
+await renderIfMissing(refreshGlyph(20), 20, `${root}/imgs/actions/restart-confluence/icon.png`);
+await renderIfMissing(refreshGlyph(40), 40, `${root}/imgs/actions/restart-confluence/icon@2x.png`);
+await renderIfMissing(refreshIcon(72, ACCENT), 72, `${root}/imgs/actions/restart-confluence/key.png`);
+await renderIfMissing(refreshIcon(144, ACCENT), 144, `${root}/imgs/actions/restart-confluence/key@2x.png`);
 
 const uploadGlyph = (size, color = "#ffffff") => `
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" width="${size}" height="${size}">
@@ -175,10 +191,10 @@ const uploadIcon = (size, color) => `
     <path d="M3.5 14.5v1.5a1 1 0 0 0 1 1h11a1 1 0 0 0 1-1v-1.5" stroke="${color}" stroke-width="1.7" fill="none" stroke-linecap="round"/>
   </g>
 </svg>`;
-await render(uploadGlyph(20), 20, `${root}/imgs/actions/push-info/icon.png`);
-await render(uploadGlyph(40), 40, `${root}/imgs/actions/push-info/icon@2x.png`);
-await render(uploadIcon(72, ACCENT), 72, `${root}/imgs/actions/push-info/key.png`);
-await render(uploadIcon(144, ACCENT), 144, `${root}/imgs/actions/push-info/key@2x.png`);
+await renderIfMissing(uploadGlyph(20), 20, `${root}/imgs/actions/push-info/icon.png`);
+await renderIfMissing(uploadGlyph(40), 40, `${root}/imgs/actions/push-info/icon@2x.png`);
+await renderIfMissing(uploadIcon(72, ACCENT), 72, `${root}/imgs/actions/push-info/key.png`);
+await renderIfMissing(uploadIcon(144, ACCENT), 144, `${root}/imgs/actions/push-info/key@2x.png`);
 
 // status-dial: glifo simple de "medidor" para el icono de accion y el circulo
 // del dial en la app (no tiene arte real todavia).
@@ -197,10 +213,10 @@ const gaugeIcon = (size, color) => `
     <circle cx="10" cy="14" r="1.3" fill="${color}"/>
   </g>
 </svg>`;
-await render(gaugeGlyph(20), 20, `${root}/imgs/actions/status-dial/icon.png`);
-await render(gaugeGlyph(40), 40, `${root}/imgs/actions/status-dial/icon@2x.png`);
-await render(gaugeIcon(72, ACCENT), 72, `${root}/imgs/actions/status-dial/dial.png`);
-await render(gaugeIcon(144, ACCENT), 144, `${root}/imgs/actions/status-dial/dial@2x.png`);
+await renderIfMissing(gaugeGlyph(20), 20, `${root}/imgs/actions/status-dial/icon.png`);
+await renderIfMissing(gaugeGlyph(40), 40, `${root}/imgs/actions/status-dial/icon@2x.png`);
+await renderIfMissing(gaugeIcon(72, ACCENT), 72, `${root}/imgs/actions/status-dial/dial.png`);
+await renderIfMissing(gaugeIcon(144, ACCENT), 144, `${root}/imgs/actions/status-dial/dial@2x.png`);
 
 // chat-send: glifo simple de burbuja de chat.
 const chatGlyph = (size, color = "#ffffff") => `
@@ -214,9 +230,32 @@ const chatIcon = (size, color) => `
     <path d="M3 4.5h14v9H8l-3.2 2.6V13.5H3z" stroke="${color}" stroke-width="1.5" fill="none" stroke-linejoin="round"/>
   </g>
 </svg>`;
-await render(chatGlyph(20), 20, `${root}/imgs/actions/chat-send/icon.png`);
-await render(chatGlyph(40), 40, `${root}/imgs/actions/chat-send/icon@2x.png`);
-await render(chatIcon(72, ACCENT), 72, `${root}/imgs/actions/chat-send/key.png`);
-await render(chatIcon(144, ACCENT), 144, `${root}/imgs/actions/chat-send/key@2x.png`);
+await renderIfMissing(chatGlyph(20), 20, `${root}/imgs/actions/chat-send/icon.png`);
+await renderIfMissing(chatGlyph(40), 40, `${root}/imgs/actions/chat-send/icon@2x.png`);
+await renderIfMissing(chatIcon(72, ACCENT), 72, `${root}/imgs/actions/chat-send/key.png`);
+await renderIfMissing(chatIcon(144, ACCENT), 144, `${root}/imgs/actions/chat-send/key@2x.png`);
+
+// create-clip: glifo de claqueta (mismo tratamiento simple que start-all/
+// stop-all/chat-send), pero en violeta Twitch en vez de ACCENT - esta
+// accion es Twitch-only y el color lo deja claro de un vistazo.
+const clipGlyph = (size, color = "#ffffff") => `
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" width="${size}" height="${size}">
+  <path d="M3.5 8.5h13v7a1 1 0 0 1-1 1h-11a1 1 0 0 1-1-1Z" stroke="${color}" stroke-width="1.5" fill="none" stroke-linejoin="round"/>
+  <path d="M3.5 8.5 4.8 4h11l-1.3 4.5Z" stroke="${color}" stroke-width="1.5" fill="none" stroke-linejoin="round"/>
+  <path d="M7 4.3 8.3 8.5M11.3 4 12.6 8.5" stroke="${color}" stroke-width="1.3" stroke-linecap="round"/>
+</svg>`;
+const clipIcon = (size, color) => `
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="${size}" height="${size}">
+  <rect width="100" height="100" fill="${BG}"/>
+  <g transform="translate(20,20) scale(3)">
+    <path d="M3.5 8.5h13v7a1 1 0 0 1-1 1h-11a1 1 0 0 1-1-1Z" stroke="${color}" stroke-width="1.5" fill="none" stroke-linejoin="round"/>
+    <path d="M3.5 8.5 4.8 4h11l-1.3 4.5Z" stroke="${color}" stroke-width="1.5" fill="none" stroke-linejoin="round"/>
+    <path d="M7 4.3 8.3 8.5M11.3 4 12.6 8.5" stroke="${color}" stroke-width="1.3" stroke-linecap="round"/>
+  </g>
+</svg>`;
+await renderIfMissing(clipGlyph(20), 20, `${root}/imgs/actions/create-clip/icon.png`);
+await renderIfMissing(clipGlyph(40), 40, `${root}/imgs/actions/create-clip/icon@2x.png`);
+await renderIfMissing(clipIcon(72, TWITCH), 72, `${root}/imgs/actions/create-clip/key.png`);
+await renderIfMissing(clipIcon(144, TWITCH), 144, `${root}/imgs/actions/create-clip/key@2x.png`);
 
 console.log("Iconos generados.");
