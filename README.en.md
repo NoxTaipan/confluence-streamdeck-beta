@@ -37,6 +37,8 @@ You don't need to use all of them — each action works on its own as long as yo
 
 **Requirements:** [Stream Deck app](https://www.elgato.com/downloads) 6.5+, [Node.js](https://nodejs.org) 20 (LTS), and [confluence-beta](https://github.com/NoxTaipan/confluence-beta) installed and running (for Push Stream Info / Send Chat Message / Restart Confluence / Status). [OBS Studio](https://obsproject.com/) with [obs-websocket](https://github.com/obsproject/obs-websocket) (bundled since OBS 28+) if you're going to use the streaming actions.
 
+> ⚡ **Quick install:** if you already have (or are about to install) [confluence-beta](https://github.com/NoxTaipan/confluence-beta), run its `install.bat` and pick "Only Stream Deck" (or "Everything") — it downloads this repo, runs `npm install`/`npm run build`/`npm run link` and sets `CONFLUENCE_DIR` for you. Full guide to every way of installing the suite: [INSTALL.en.md](https://github.com/NoxTaipan/confluence-beta/blob/master/INSTALL.en.md) ([Español](https://github.com/NoxTaipan/confluence-beta/blob/master/INSTALL.md)). The manual steps below still work exactly the same.
+
 ### 1. Download and build
 
 ```bash
